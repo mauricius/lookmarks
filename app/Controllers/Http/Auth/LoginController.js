@@ -8,7 +8,7 @@ class LoginController {
    * @param  options.view
    * @return redirect
    */
-  showLogin ({ view, session }) {
+  showLogin({ view, session }) {
     return view.render('auth.login')
   }
 
@@ -20,7 +20,7 @@ class LoginController {
    * @param  options.session
    * @return redirect
    */
-  async login ({ request, auth, response, session }) {
+  async login({ request, auth, response, session }) {
     const validation = await validateAll(request.all(), {
       email: 'required|email',
       password: 'required'
@@ -39,13 +39,12 @@ class LoginController {
 
       return response.route('home')
     } catch (error) {
-      session.flashOnly(['email'])
-        .flash({
-          notification: {
-            type: 'error',
-            message: `We couldn't verify your credentials.`
-          }
-        })
+      session.flashOnly(['email']).flash({
+        notification: {
+          type: 'error',
+          message: `We couldn't verify your credentials.`
+        }
+      })
 
       return response.redirect('back')
     }

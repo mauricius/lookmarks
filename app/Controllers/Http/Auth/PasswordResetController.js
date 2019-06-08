@@ -13,7 +13,7 @@ class PasswordResetController {
    * @param  options.view
    * @return view
    */
-  showLinkRequestForm ({ view }) {
+  showLinkRequestForm({ view }) {
     return view.render('auth.passwords.email')
   }
 
@@ -24,7 +24,7 @@ class PasswordResetController {
    * @param  options.response
    * @return response
    */
-  async sendResetLinkEmail ({ request, session, response }) {
+  async sendResetLinkEmail({ request, session, response }) {
     const validation = await validate(request.input('email'), {
       email: 'required|email'
     })
@@ -83,7 +83,7 @@ class PasswordResetController {
    * @param  options.params
    * @return
    */
-  showResetForm ({ view, params }) {
+  showResetForm({ view, params }) {
     return view.render('auth.passwords.reset', { token: params.token })
   }
 
@@ -94,7 +94,7 @@ class PasswordResetController {
    * @param  options.response
    * @return response
    */
-  async reset ({ request, session, response }) {
+  async reset({ request, session, response }) {
     const validation = await validateAll(request.all(), {
       token: 'required',
       password: 'required|confirmed'

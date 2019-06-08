@@ -15,7 +15,7 @@ class UserController {
    * @param  options.view
    * @return view
    */
-  showEditAccount ({ view }) {
+  showEditAccount({ view }) {
     return view.render('users.account')
   }
 
@@ -27,7 +27,7 @@ class UserController {
    * @param  options.response
    * @return response
    */
-  async updateAccount ({ request, auth, session, response }) {
+  async updateAccount({ request, auth, session, response }) {
     const data = request.only(['name', 'email', 'catchphrase'])
 
     const validation = await validateAll(data, {
@@ -42,7 +42,9 @@ class UserController {
     }
 
     if (request.file('avatar') && request.file('avatar').size > 0) {
-      const avatar = await this._processUpload(request.file('avatar', { types: ['image'], size: '2mb' }))
+      const avatar = await this._processUpload(
+        request.file('avatar', { types: ['image'], size: '2mb' })
+      )
 
       if (!avatar.moved()) {
         session.flash({
@@ -76,7 +78,7 @@ class UserController {
    * @param  file
    * @return file
    */
-  async _processUpload (file) {
+  async _processUpload(file) {
     await file.move(Helpers.publicPath(Config.get('uploads.avatar')), {
       name: `${uuid()}.${file.subtype}`
     })
@@ -89,7 +91,7 @@ class UserController {
    * @param  options.view
    * @return view
    */
-  showChangePassword ({ view }) {
+  showChangePassword({ view }) {
     return view.render('users.password')
   }
 
@@ -101,7 +103,7 @@ class UserController {
    * @param  options.auth
    * @return response
    */
-  async updatePassword ({ request, response, session, auth }) {
+  async updatePassword({ request, response, session, auth }) {
     const data = request.only([
       'current_password',
       'new_password',
@@ -125,7 +127,7 @@ class UserController {
       return response.redirect('back')
     }
 
-    if (! await this._verifyPassword({ auth }, data.current_password)) {
+    if (!(await this._verifyPassword({ auth }, data.current_password))) {
       session.flash({
         notification: {
           type: 'danger',
@@ -154,7 +156,7 @@ class UserController {
    * @param  options.view
    * @return view
    */
-  async showPersonalData ({ view }) {
+  async showPersonalData({ view }) {
     const bookmarks = await Bookmark.getCount()
     const categories = await Category.getCount()
 
@@ -172,10 +174,10 @@ class UserController {
    * @param  options.auth
    * @return response
    */
-  async deleteData ({ request, response, session, auth }) {
+  async deleteData({ request, response, session, auth }) {
     const data = request.only(['current_password'])
 
-    if (! await this._verifyPassword({ auth }, data.current_password)) {
+    if (!(await this._verifyPassword({ auth }, data.current_password))) {
       session.flash({
         notification: {
           type: 'error',
@@ -186,8 +188,12 @@ class UserController {
       return response.redirect('back')
     }
 
-    await Bookmark.query().where('user_id', auth.user.id).delete()
-    await Category.query().where('user_id', auth.user.id).delete()
+    await Bookmark.query()
+      .where('user_id', auth.user.id)
+      .delete()
+    await Category.query()
+      .where('user_id', auth.user.id)
+      .delete()
 
     session.flash({
       notification: {
@@ -206,9 +212,7 @@ class UserController {
    * @return boolean
    */
   async _verifyPassword({ auth }, current_password) {
-    return await Hash.verify(
-      current_password, auth.user.password
-    )
+    return await Hash.verify(current_password, auth.user.password)
   }
 }
 

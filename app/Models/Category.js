@@ -4,7 +4,7 @@ const Model = use('Model')
 const Hasher = use('App/Helpers/Hasher')
 
 class Category extends Model {
-  static boot () {
+  static boot() {
     super.boot()
 
     this.addTrait('./Truncate', {
@@ -21,24 +21,24 @@ class Category extends Model {
     })
   }
 
-  static get computed () {
+  static get computed() {
     return ['encodedId']
   }
 
-  getEncodedId ({ id }) {
+  getEncodedId({ id }) {
     const hasher = new Hasher()
 
     return hasher.encode(id)
   }
 
-  user () {
+  user() {
     return this.belongsTo('App/Models/User')
   }
 
-  bookmarks () {
-    return this
-      .belongsToMany('App/Models/Bookmark')
-      .pivotTable('bookmark_category')
+  bookmarks() {
+    return this.belongsToMany('App/Models/Bookmark').pivotTable(
+      'bookmark_category'
+    )
   }
 }
 

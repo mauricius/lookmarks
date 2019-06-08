@@ -13,7 +13,7 @@
 
 const Factory = use('Factory')
 
-Factory.blueprint('App/Models/Bookmark', async (faker) => {
+Factory.blueprint('App/Models/Bookmark', async faker => {
   return {
     user_id: 1,
     name: faker.username(),
@@ -22,10 +22,9 @@ Factory.blueprint('App/Models/Bookmark', async (faker) => {
   }
 })
 
-Factory.blueprint('App/Models/Category', async (faker) => {
+Factory.blueprint('App/Models/Category', async faker => {
   return {
     user_id: 1,
     name: faker.sentence()
   }
 })
-

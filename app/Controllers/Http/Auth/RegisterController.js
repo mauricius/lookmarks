@@ -9,7 +9,7 @@ class RegisterController {
    * @param  options.view
    * @return view
    */
-  showRegister ({ view }) {
+  showRegister({ view }) {
     return view.render('auth.register')
   }
 
@@ -21,7 +21,7 @@ class RegisterController {
    * @param  options.session
    * @return response
    */
-  async register ({ request, response, auth, session }) {
+  async register({ request, response, auth, session }) {
     const userData = request.only(['name', 'email', 'password'])
 
     const rules = {

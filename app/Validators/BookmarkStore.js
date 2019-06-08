@@ -1,11 +1,11 @@
 'use strict'
 
 class BookmarkStore {
-  get validateAll () {
+  get validateAll() {
     return true
   }
 
-  get rules () {
+  get rules() {
     return {
       name: 'required',
       url: 'required|url'

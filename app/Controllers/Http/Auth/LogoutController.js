@@ -7,7 +7,7 @@ class LogoutController {
    * @param  options.response
    * @return redirect
    */
-  async logout ({ auth, response }) {
+  async logout({ auth, response }) {
     await auth.logout()
 
     return response.route('login')

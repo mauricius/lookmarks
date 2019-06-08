@@ -1,8 +1,7 @@
 'use strict'
 
 class CategoryStore {
-
-  get rules () {
+  get rules() {
     return {
       name: 'required'
     }

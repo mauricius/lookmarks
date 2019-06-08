@@ -10,7 +10,7 @@ class ViewHelpersServiceProvider extends ServiceProvider {
    *
    * @return {void}
    */
-  register () {
+  register() {
     //
   }
 
@@ -22,7 +22,7 @@ class ViewHelpersServiceProvider extends ServiceProvider {
    *
    * @return {void}
    */
-  boot () {
+  boot() {
     const View = this.app.use('Adonis/Src/View')
 
     View.global('parseInt', (value, base = 10) => parseInt(value, base))

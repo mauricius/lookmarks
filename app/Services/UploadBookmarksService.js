@@ -9,12 +9,11 @@ const dd = require('dump-die')
 const moment = use('moment')
 
 class UploadBookmarksService {
-
-  constructor (user_id) {
+  constructor(user_id) {
     this.user_id = user_id
   }
 
-  async persist (file) {
+  async persist(file) {
     await file.move(Helpers.tmpPath('uploads'), {
       name: `${uuid()}.${file.subtype}`
     })
@@ -45,11 +44,12 @@ class UploadBookmarksService {
   }
 
   async processBookmarks(bookmarks, categories = []) {
-    if (! bookmarks.length) return
+    if (!bookmarks.length) return
 
     for (const bookmark of bookmarks) {
-      if (! bookmark.type) {
-        if (bookmark.children) await this.processBookmarks(bookmark.children, [])
+      if (!bookmark.type) {
+        if (bookmark.children)
+          await this.processBookmarks(bookmark.children, [])
       } else if (bookmark.type === 'folder') {
         await this.parseFolder(bookmark, categories)
 
@@ -70,7 +70,9 @@ class UploadBookmarksService {
     const category = new Category()
     category.name = bookmark.title
     category.user_id = this.user_id
-    category.created_at = moment(chromeDtToDate(category.add_date)).format('YYYY-MM-DD HH:mm:ss')
+    category.created_at = moment(chromeDtToDate(category.add_date)).format(
+      'YYYY-MM-DD HH:mm:ss'
+    )
 
     await category.save()
 
@@ -82,31 +84,29 @@ class UploadBookmarksService {
   }
 
   async existingBookmark(bookmark) {
-    return await Database
-      .table('bookmarks')
+    return await Database.table('bookmarks')
       .where('url', bookmark.url)
       .first()
   }
 
   async parseBookmark(bookmark, categories) {
-    const bookmark_id = await Database
-      .insert({
-        name: sanitize(bookmark.title).substring(0, 200),
-        url: bookmark.url,
-        description: sanitize(bookmark.title),
-        user_id: this.user_id,
-        created_at: moment(chromeDtToDate(bookmark.add_date)).format('YYYY-MM-DD HH:mm:ss')
-      })
-      .into('bookmarks')
+    const bookmark_id = await Database.insert({
+      name: sanitize(bookmark.title).substring(0, 200),
+      url: bookmark.url,
+      description: sanitize(bookmark.title),
+      user_id: this.user_id,
+      created_at: moment(chromeDtToDate(bookmark.add_date)).format(
+        'YYYY-MM-DD HH:mm:ss'
+      )
+    }).into('bookmarks')
 
     if (categories.length) {
       await this.applyCategories(bookmark_id, categories)
-
     }
   }
 
   async applyCategories(bookmark_id, categories) {
-    const insert = categories.map((id) => {
+    const insert = categories.map(id => {
       return {
         bookmark_id: bookmark_id,
         category_id: id
@@ -124,7 +124,7 @@ class UploadBookmarksService {
  * @see  https://stackoverflow.com/questions/51343828/how-to-parse-chrome-bookmarks-date-added-value-to-a-date
  */
 function chromeDtToDate(st_dt) {
-  return new Date(Date.UTC(1970,0,1) + st_dt / 1000)
+  return new Date(Date.UTC(1970, 0, 1) + st_dt / 1000)
 }
 
 /**
@@ -133,7 +133,7 @@ function chromeDtToDate(st_dt) {
  * @return string
  */
 function sanitize(str) {
-  return str.replace(/[^\x00-\x7F]/g, "")
+  return str.replace(/[^\x00-\x7F]/g, '')
 }
 
 module.exports = UploadBookmarksService

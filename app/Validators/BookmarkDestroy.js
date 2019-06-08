@@ -5,9 +5,8 @@ const Hasher = use('App/Helpers/Hasher')
 const UnauthorizedException = use('App/Exceptions/UnauthorizedException')
 
 class BookmarkDestroy {
-
-  async authorize () {
-    const id = (new Hasher()).decode(this.ctx.params.id)
+  async authorize() {
+    const id = new Hasher().decode(this.ctx.params.id)
 
     const bookmark = await Bookmark.findOrFail(id)
 
@@ -23,7 +22,7 @@ class BookmarkDestroy {
     return true
   }
 
-  get rules () {
+  get rules() {
     return {}
   }
 }

@@ -5,9 +5,8 @@ const Hasher = use('App/Helpers/Hasher')
 const UnauthorizedException = use('App/Exceptions/UnauthorizedException')
 
 class BookmarkUpdate {
-
-  async authorize () {
-    const id = (new Hasher()).decode(this.ctx.params.id)
+  async authorize() {
+    const id = new Hasher().decode(this.ctx.params.id)
 
     const bookmark = await Bookmark.findOrFail(id)
 
@@ -23,11 +22,11 @@ class BookmarkUpdate {
     return true
   }
 
-  get validateAll () {
+  get validateAll() {
     return true
   }
 
-  get rules () {
+  get rules() {
     return {
       name: 'required',
       url: 'required|url'

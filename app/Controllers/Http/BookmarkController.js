@@ -12,14 +12,13 @@ const ScreenshotService = use('App/Services/ScreenshotService')
 const path = require('path')
 
 class BookmarkController {
-
   /**
    * Index of Bookmarks
    * @param  options.request
    * @param  options.view
    * @return view
    */
-  async index ({ request, auth, params, view }) {
+  async index({ request, auth, params, view }) {
     const query = Bookmark.query()
       .filter(request.all())
       .where('user_id', auth.user.id)
@@ -39,7 +38,8 @@ class BookmarkController {
     if (request.get()._sort && request.get()._sort === 'category') {
       const bookmarks = await query.fetch()
 
-      return view.presenter('CategoryPresenter')
+      return view
+        .presenter('CategoryPresenter')
         .render('bookmarks.index_category', {
           bookmarks: bookmarks.toJSON(),
           categories: categories.toJSON()
@@ -61,12 +61,11 @@ class BookmarkController {
         .firstOrFail()
     }
 
-    return view.presenter('CategoryPresenter')
-      .render('bookmarks.index', {
-        bookmarks: bookmarks.toJSON(),
-        categories: categories.toJSON(),
-        category: category ? category.toJSON() : null
-      })
+    return view.presenter('CategoryPresenter').render('bookmarks.index', {
+      bookmarks: bookmarks.toJSON(),
+      categories: categories.toJSON(),
+      category: category ? category.toJSON() : null
+    })
   }
 
   /**
@@ -75,7 +74,7 @@ class BookmarkController {
    * @param  options.params
    * @return view
    */
-  async create ({ view, params, auth }) {
+  async create({ view, params, auth }) {
     const categories = await Category.query()
       .where('user_id', auth.user.id)
       .fetch()
@@ -93,10 +92,15 @@ class BookmarkController {
    * @param  options.session
    * @return redirect
    */
-  async store ({ request, response, auth, session }) {
-    const description = request.input('description') || await MetaService.fetchDescription(request.input('url'))
+  async store({ request, response, auth, session }) {
+    const description =
+      request.input('description') ||
+      (await MetaService.fetchDescription(request.input('url')))
 
-    const screenshot = await MetaService.fetchScreenshot(request.input('url'), Helpers.publicPath('uploads'))
+    const screenshot = await MetaService.fetchScreenshot(
+      request.input('url'),
+      Helpers.publicPath('uploads')
+    )
 
     const bookmark = new Bookmark()
     bookmark.name = request.input('name')
@@ -129,7 +133,7 @@ class BookmarkController {
    * @param  options.response
    * @return view
    */
-  async edit ({ auth, params, request, response, view }) {
+  async edit({ auth, params, request, response, view }) {
     const id = this.decode(params.id)
 
     const bookmark = await Bookmark.query()
@@ -142,11 +146,10 @@ class BookmarkController {
       .where('user_id', auth.user.id)
       .fetch()
 
-    return view.presenter('CategoryPresenter')
-      .render('bookmarks.form', {
-        bookmark: bookmark.toJSON(),
-        categories: categories.toJSON()
-      })
+    return view.presenter('CategoryPresenter').render('bookmarks.form', {
+      bookmark: bookmark.toJSON(),
+      categories: categories.toJSON()
+    })
   }
 
   /**
@@ -157,7 +160,7 @@ class BookmarkController {
    * @param  options.session
    * @return redirect
    */
-  async update ({ params, request, response, auth, session }) {
+  async update({ params, request, response, auth, session }) {
     const validation = await validateAll(request.all(), {
       name: 'required',
       url: 'required'
@@ -200,15 +203,18 @@ class BookmarkController {
    * @param  options.session
    * @return response
    */
-  async screenshot ({ params, response, session }) {
+  async screenshot({ params, response, session }) {
     const id = this.decode(params.id)
 
     const bookmark = await Bookmark.findOrFail(id)
 
-    const screenshot = await MetaService.fetchScreenshot(bookmark.url, Helpers.publicPath('uploads'))
+    const screenshot = await MetaService.fetchScreenshot(
+      bookmark.url,
+      Helpers.publicPath('uploads')
+    )
 
     bookmark.merge({
-      screenshot : screenshot ? '/uploads/' + screenshot : null
+      screenshot: screenshot ? '/uploads/' + screenshot : null
     })
 
     await bookmark.save()
@@ -230,20 +236,23 @@ class BookmarkController {
    * @param  options.session
    * @return response
    */
-  async deleteScreenshot ({ params, response, session}) {
+  async deleteScreenshot({ params, response, session }) {
     const id = this.decode(params.id)
 
     const bookmark = await Bookmark.findOrFail(id)
 
-    if (! bookmark.screenshot) {
+    if (!bookmark.screenshot) {
       return response.redirect('back')
     }
 
     try {
-      await ScreenshotService.delete(bookmark.screenshot, Helpers.publicPath('uploads'))
+      await ScreenshotService.delete(
+        bookmark.screenshot,
+        Helpers.publicPath('uploads')
+      )
 
       bookmark.merge({
-        screenshot : null
+        screenshot: null
       })
 
       await bookmark.save()
@@ -272,7 +281,7 @@ class BookmarkController {
    * @param  options.request
    * @return
    */
-  showUpload ({ view, request }) {
+  showUpload({ view, request }) {
     return view.render('bookmarks.upload')
   }
 
@@ -283,29 +292,33 @@ class BookmarkController {
    * @param  options.session
    * @return
    */
-  async upload ({ request, response, session, auth }) {
+  async upload({ request, response, session, auth }) {
     const uploadService = new UploadBookmarksService(auth.user.id)
 
-    if (! request.file('file')) {
-        session.flash({
-          notification: {
-            type: 'error',
-            message: 'The file is missing'
-          }
-        })
+    if (!request.file('file')) {
+      session.flash({
+        notification: {
+          type: 'error',
+          message: 'The file is missing'
+        }
+      })
 
-        return response.redirect('back')
-      }
+      return response.redirect('back')
+    }
 
     if (request.file('file').size > 0) {
-      const file = await uploadService.persist(request.file('file', {
-        types: ['html'],
-        size: '2mb'
-      }))
+      const file = await uploadService.persist(
+        request.file('file', {
+          types: ['html'],
+          size: '2mb'
+        })
+      )
 
-      await uploadService.processFile(path.join(Helpers.tmpPath('uploads'), file.fileName))
+      await uploadService.processFile(
+        path.join(Helpers.tmpPath('uploads'), file.fileName)
+      )
 
-      if (! file.moved()) {
+      if (!file.moved()) {
         session.flash({
           notification: {
             type: 'error',
@@ -334,7 +347,7 @@ class BookmarkController {
    * @param  options.session
    * @return response
    */
-  async destroy ({ params, response, session }) {
+  async destroy({ params, response, session }) {
     const id = this.decode(params.id)
 
     const bookmark = await Bookmark.findOrFail(id)
@@ -356,8 +369,8 @@ class BookmarkController {
    * @param  string param
    * @return number
    */
-  decode (param) {
-    return (new Hasher()).decode(param)
+  decode(param) {
+    return new Hasher().decode(param)
   }
 }
 

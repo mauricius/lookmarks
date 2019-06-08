@@ -3,7 +3,7 @@
 const Schema = use('Schema')
 
 class UrlCategorySchema extends Schema {
-  up () {
+  up() {
     this.create('bookmark_category', table => {
       table
         .integer('bookmark_id')
@@ -22,7 +22,7 @@ class UrlCategorySchema extends Schema {
     })
   }
 
-  down () {
+  down() {
     this.drop('bookmark_category')
   }
 }

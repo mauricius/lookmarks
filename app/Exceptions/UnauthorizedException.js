@@ -6,7 +6,7 @@ class UnauthorizedException extends LogicalException {
   /**
    * Handle this exception by itself
    */
-  async handle (error, { response, session }) {
+  async handle(error, { response, session }) {
     session.flash({
       notification: {
         type: 'error',

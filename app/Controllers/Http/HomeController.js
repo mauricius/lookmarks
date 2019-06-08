@@ -10,7 +10,7 @@ class HomeController {
    * @param  options.auth
    * @return
    */
-  async index ({ view, response, auth }) {
+  async index({ view, response, auth }) {
     await auth.check()
 
     const bookmarks = await Bookmark.query()

@@ -3,7 +3,7 @@
 const Schema = use('Schema')
 
 class BookmarkSchema extends Schema {
-  up () {
+  up() {
     this.create('bookmarks', table => {
       table.increments()
       table
@@ -21,7 +21,7 @@ class BookmarkSchema extends Schema {
     })
   }
 
-  down () {
+  down() {
     this.drop('bookmarks')
   }
 }

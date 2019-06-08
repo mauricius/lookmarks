@@ -20,7 +20,7 @@ class ExceptionHandler extends BaseExceptionHandler {
    *
    * @return {void}
    */
-  async handle (error, { session, response, view }) {
+  async handle(error, { session, response, view }) {
     if (error.name === 'InvalidSessionException') {
       session.flash({
         notification: {
@@ -51,7 +51,7 @@ class ExceptionHandler extends BaseExceptionHandler {
    *
    * @return {void}
    */
-  async report (error, { request }) {}
+  async report(error, { request }) {}
 }
 
 module.exports = ExceptionHandler

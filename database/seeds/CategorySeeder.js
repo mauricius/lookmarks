@@ -13,7 +13,7 @@
 const Category = use('App/Models/Category')
 
 class CategorySeeder {
-  async run () {
+  async run() {
     const categories = [
       {
         name: 'Development',

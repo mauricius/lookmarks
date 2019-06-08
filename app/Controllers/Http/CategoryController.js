@@ -7,14 +7,13 @@ const Helpers = use('Helpers')
 const Event = use('Event')
 
 class CategoryController {
-
   /**
    * View the page with all categories
    * @param  options.view
    * @param  options.request
    * @return view
    */
-  async index ({ view, request, auth }) {
+  async index({ view, request, auth }) {
     const categories = await Category.query()
       .where('user_id', auth.user.id)
       .fetch()
@@ -28,7 +27,7 @@ class CategoryController {
    * @param  options.request
    * @return view
    */
-  create ({ view, request }) {
+  create({ view, request }) {
     return view.render('categories.form')
   }
 
@@ -40,7 +39,7 @@ class CategoryController {
    * @param  options.session
    * @return response
    */
-  async store ({ request, response, auth, session }) {
+  async store({ request, response, auth, session }) {
     const category = new Category()
     category.name = request.input('name')
     category.user_id = auth.user.id
@@ -64,7 +63,7 @@ class CategoryController {
    * @param  options.auth
    * @return view
    */
-  async edit ({ params, view, auth }) {
+  async edit({ params, view, auth }) {
     const id = this.decode(params.id)
 
     const category = await Category.query()
@@ -85,7 +84,7 @@ class CategoryController {
    * @param  options.session
    * @return response
    */
-  async update ({ request, response, auth, params, session }) {
+  async update({ request, response, auth, params, session }) {
     const id = this.decode(params.id)
 
     const category = await Category.query()
@@ -115,7 +114,7 @@ class CategoryController {
    * @param  options.session
    * @return response
    */
-  async destroy ({ params, auth, response, session }) {
+  async destroy({ params, auth, response, session }) {
     const id = this.decode(params.id)
 
     const category = await Category.query()
@@ -140,8 +139,8 @@ class CategoryController {
    * @param  string param
    * @return number
    */
-  decode (param) {
-    return (new Hasher()).decode(param)
+  decode(param) {
+    return new Hasher().decode(param)
   }
 }
 

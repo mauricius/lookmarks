@@ -2,16 +2,19 @@ const Hashids = require('hashids')
 const Env = use('Env')
 
 class Hasher {
-
   constructor() {
-    this.hashids = new Hashids(Env.get('APP_KEY'), 6, 'abcdefghijklmnopqrstuvwxyz1234567890')
+    this.hashids = new Hashids(
+      Env.get('APP_KEY'),
+      6,
+      'abcdefghijklmnopqrstuvwxyz1234567890'
+    )
   }
 
-  encode (text) {
+  encode(text) {
     return this.hashids.encode(text)
   }
 
-  decode (text) {
+  decode(text) {
     return this.hashids.decode(text)[0]
   }
 }

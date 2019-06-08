@@ -15,10 +15,8 @@ const Factory = use('Factory')
 const Database = use('Database')
 
 class BookmarkSeeder {
-  async run () {
-    const bookmarks = await Factory
-      .model('App/Models/Bookmark')
-      .createMany(5)
+  async run() {
+    const bookmarks = await Factory.model('App/Models/Bookmark').createMany(5)
   }
 }
 
