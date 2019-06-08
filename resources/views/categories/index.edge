@@ -1,0 +1,59 @@
+@layout('layouts.app')
+
+@section('content')
+  @set('title', 'Categories')
+
+  <section class="flex py-2">
+    <div class="py-2 w-1/2 mx-auto">
+      <h2 class="text-3xl mb-4">{{ title }} <small>({{ categories.length }})</small></h2>
+
+      @!component('components.button_link', href = route('categories.create'), label = 'Add New')
+
+      <hr>
+
+      @include('partials._notification')
+
+      <table class="text-left w-full mt-3">
+        <tbody>
+          @each(category in categories)
+            <tr class="hover:bg-gray-200">
+              <td class="py-4 px-6 border-b border-gray-300">
+                <a href="{{ route('bookmarks.index') + '?category=' + category.encodedId }}" class="text-gray-800">{{ category.name }}</a>
+              </td>
+              <td class="py-4 px-6 border-b border-gray-400">
+                <div class="flex flex-row-reverse items-center">
+                  <form action="{{ '/categories/' + category.encodedId + '?_method=DELETE' }}" method="post" onsubmit="return confirm('Do you really want to delete the category?')">
+                    {{ csrfField() }}
+                    <button type="submit" class="flex-no-shrink p-1 ml-2 mr-2 border-2 rounded hover:text-white text-red-500 border-red-500 hover:bg-red-500 text-xs">Delete</button>
+                  </form>
+                  <a
+                    href="{{ route('categories.edit', { id: category.encodedId }) }}"
+                    class="flex-no-shrink p-1 ml-2 border-2 rounded text-green-500 border-green-500 hover:bg-green-500 hover:text-white text-xs"
+                  >
+                    Edit
+                  </a>
+                  <a
+                    href="{{ route('bookmarks.index') + '?category=' + category.encodedId }}"
+                    class="flex-no-shrink p-1 ml-2 border-2 rounded text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white text-xs"
+                  >
+                    View
+                  </a>
+                </div>
+              </td>
+            </tr>
+          @else
+            <tr>
+              <td colspan="100%" class="py-4 text-center">
+                <h4>
+                  You've not created any category yet!
+                  <a href="{{ route('categories.create') }}" class="text-blue-500 hover:text-blue-400">Create one</a>
+                </h4>
+              </td>
+            </tr>
+          @endeach
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+@endsection

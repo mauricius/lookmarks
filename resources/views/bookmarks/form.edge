@@ -1,0 +1,87 @@
+@layout('layouts.app')
+
+@section('content')
+  @set('title', bookmark ? 'Edit Bookmark' : 'Create Bookmark')
+
+  <section class="flex py-2">
+    <div class="py-2 w-1/2">
+      <h2 class="text-3xl mb-4">{{ title }}</h2>
+
+      @include('partials._notification')
+
+      @if(bookmark)
+        <a
+          href="{{ route('bookmarks.screenshot', { id: bookmark.encodedId }) }}"
+          class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          <i class="fas fa-camera"></i>
+          @if(bookmark.screenshot)
+            Refresh Screenshot
+          @else
+            Grab Screenshot
+          @endif
+        </a>
+
+        <hr class="border-b border-gray-500 my-4">
+      @endif
+
+      <form action="{{ bookmark ? route('bookmarks.update', { id: bookmark.encodedId }) + '?_method=PUT' : route('bookmarks.store') }}" method="post">
+        {{ csrfField() }}
+
+        <div class="mb-4">
+          @!component('components.form.label', name = 'name', label = 'Name', error = hasErrorFor('name'))
+          @!component('components.form.input', name = 'name', value = old('name', bookmark ? bookmark.name : ''), error = getErrorFor('name'))
+        </div>
+
+        <div class="mb-4">
+          @!component('components.form.label', name = 'url', label = 'Position (URL)', error = hasErrorFor('url'))
+          @!component('components.form.input', name = 'url', type = 'url', value = old('url', bookmark ? bookmark.url : ''), error = getErrorFor('url'))
+        </div>
+
+        <div class="mb-4">
+          @!component('components.form.label', name = 'categories', label = 'Categories', error = hasErrorFor('categories'))
+          <select
+            class="shadow appearance-none w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="categories"
+            name="categories"
+            multiple="true"
+          >
+            @each(category in categories)
+              <option value="{{ category.id }}" {{ bookmark && hasCategory(bookmark, category) ? el('selected="selected"') : '' }}>{{ category.name }}</option>
+            @endeach
+          </select>
+          {{ elIf('<p class="text-red-500 text-xs italic">$self</p>', getErrorFor('categories'), hasErrorFor('categories')) }}
+        </div>
+
+        <div class="mb-4">
+          @!component('components.form.label', name = 'notes', label = 'Notes')
+          <textarea
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-1 leading-tight focus:outline-none focus:shadow-outline"
+            name="notes"
+            rows="10"
+          >{{ bookmark ? bookmark.description : '' }}</textarea>
+          <p class="text-xs text-gray-700 italic mb-3">Leave empty to automatically fetch the site description.</p>
+        </div>
+
+        @!component('components.form.button', value = bookmark ? 'Update' : 'Create')
+        @!component('components.back_link', href = route('bookmarks.index'))
+      </form>
+    </div>
+    <div class="px-4 w-1/2">
+      @if(bookmark && bookmark.screenshot)
+          <h2 class="mb-4">Screenshot</h2>
+          <img src="{{ bookmark.screenshot }}" class="max-w-full" alt="{{ bookmark.name }}" />
+
+          <form action="{{ '/bookmarks/' + bookmark.encodedId + '/screenshot?_method=DELETE' }}" method="post" class="mt-2" onsubmit="return confirm('Do you really want to delete the screenshot?')">
+            {{ csrfField() }}
+            <button type="submit" class="float-right p-2 bg-red-500 rounded text-white hover:bg-red-600">Delete Screenshot</button>
+          </form>
+      @endif
+    </div>
+  </section>
+
+@endsection
+
+@section('scripts')
+  {{ script('js/select.js') }}
+@endsection

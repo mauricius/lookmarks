@@ -1,0 +1,45 @@
+@layout('layouts.app')
+
+@section('content')
+  @set('title', 'Login')
+
+  @component('auth.components.center_box', title = 'Login')
+    @slot('header')
+      @include('partials._notification')
+    @endslot
+
+    @slot('body')
+      <form action="{{ route('login') }}" method="post">
+        {{ csrfField() }}
+
+        <div class="mb-4">
+          @!component('components.form.label', name = 'email', label = 'Email', error = hasErrorFor('email'))
+          @!component('components.form.input', type = 'email', name = 'email', value = old('email', ''), error = getErrorFor('email'), placeholder = 'user@email.com')
+        </div>
+        <div class="mb-4">
+          @!component('components.form.label', name = 'password', label = 'Password', error = hasErrorFor('password'))
+          @!component('components.form.input', type = 'password', name = 'password', error = getErrorFor('password'), placeholder = '***********')
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm font-bold mb-2">
+            <input type="checkbox" id="remember" name="remember">
+            Remember me
+          </label>
+        </div>
+        <div class="flex items-center justify-between">
+          @!component('components.form.button', value = 'Sign In')
+          <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-400" href="/password/reset">
+            Forgot Password?
+          </a>
+        </div>
+      </form>
+    @endslot
+
+    @slot('footer')
+      <p class="text-gray-600 text-sm text-center">
+        Don't have an account? <a href="{{ route('register') }}" class="font-bold text-blue-500 hover:text-blue-400">Register</a>.
+      </p>
+    @endslot
+  @endcomponent
+
+@endsection

@@ -1,0 +1,31 @@
+@layout('layouts.app')
+
+@section('content')
+  @set('title', 'Reset Password')
+
+  @component('auth.components.center_box', title = title)
+    @slot('header')
+      @include('partials._notification')
+    @endslot
+
+    @slot('body')
+      <form action="{{ route('password.email') }}" method="post">
+        {{ csrfField() }}
+
+        <div class="mb-4">
+          @!component('components.form.label', name = 'email', label = 'Email', error = hasErrorFor('email'))
+          @!component('components.form.input', type = 'email', name = 'email', value = old('email', ''), error = getErrorFor('email'))
+        </div>
+
+        @!component('components.form.button', value = 'Send password reset link')
+      </form>
+    @endslot
+
+    @slot('footer')
+      <p class="text-gray-600 text-sm text-center">
+        Already got an account? <a href="{{ route('login') }}" class="font-bold text-blue-500 hover:text-blue-400">Login</a>.
+      </p>
+    @endslot
+  @endcomponent
+
+@endsection

@@ -1,0 +1,75 @@
+{
+  "name": "lookmarks",
+  "version": "0.1.0",
+  "adonis-version": "4.1.0",
+  "description": "Google-like Bookmarks applicaion build with Adonisjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node ace test",
+    "prettier:lint": "prettier --check \"{app,database,providers,start,tests}/**/*.js\"",
+    "prettier:fix": "prettier --write \"{app,database,providers,start,tests}/**/*.js\"",
+    "dev": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "hot": "NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "production": "NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "keywords": [
+    "adonisjs",
+    "tailwindcss",
+    "google-bookmarks"
+  ],
+  "author": "Maurizio Bonani <maurizio.bonani@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mauricius/lookmarks.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mauricius/lookmarks/issues"
+  },
+  "homepage": "https://github.com/mauricius/lookmarks#readme",
+  "license": "MIT",
+  "dependencies": {
+    "@adonisjs/ace": "^5.0.8",
+    "@adonisjs/auth": "^3.0.7",
+    "@adonisjs/bodyparser": "^2.0.9",
+    "@adonisjs/cors": "^1.0.7",
+    "@adonisjs/fold": "^4.0.9",
+    "@adonisjs/framework": "^5.0.13",
+    "@adonisjs/ignitor": "^2.0.8",
+    "@adonisjs/lucid": "^5.0.4",
+    "@adonisjs/lucid-slugify": "^1.0.3",
+    "@adonisjs/mail": "^3.0.9",
+    "@adonisjs/session": "^1.0.28",
+    "@adonisjs/shield": "^1.0.8",
+    "@adonisjs/validator": "^5.0.6",
+    "adonis-lucid-filter": "^1.0.4",
+    "bookmarks-parser": "^1.5.0",
+    "got": "^9.6.0",
+    "hashids": "^1.2.2",
+    "luminous-lightbox": "^2.3.2",
+    "metascraper": "^4.10.3",
+    "metascraper-description": "^4.10.2",
+    "mysql": "^2.17.1",
+    "node-webshot": "^1.0.3",
+    "rand-token": "^0.4.0",
+    "slim-select": "^1.21.0",
+    "url-parse": "^1.4.7",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "dump-die": "^1.0.0",
+    "laravel-mix": "^2.1.14",
+    "laravel-mix-tailwind": "^0.1.0",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
+    "prettier": "1.18.2",
+    "tailwindcss": "^1.0.2"
+  },
+  "autoload": {
+    "App": "./app"
+  },
+  "engines": {
+    "node": "10.13.0"
+  }
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ title }} | Lookmarks</title>
+    {{ style('/css/app.css') }}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+    @!section('styles')
+  </head>
+  <body class="font-sans">
+    <div class="min-h-screen flex flex-col">
+      @include('layouts.partials._navbar')
+
+      <div class="flex-grow container mx-auto">
+        @!section('content')
+      </div>
+
+      @include('layouts.partials._footer')
+    </div>
+
+    <button id="to-top" title="Back to Top" class="fixed bg-blue-500 hover:bg-blue-500-dark text-white font-bold rounded border hidden">
+      <i class="fa fa-arrow-up"></i>
+    </button>
+
+    @!section('scripts')
+
+    <script type="text/javascript">
+      (function() {
+        'use strict';
+
+        function trackScroll() {
+          var scrolled = window.pageYOffset;
+          var coords = document.documentElement.clientHeight;
+
+          if (scrolled > coords) {
+            btn.classList.remove('hidden');
+          }
+          if (scrolled < coords) {
+            btn.classList.add('hidden');
+          }
+        }
+
+        function backToTop() {
+          if (window.pageYOffset > 0) {
+            window.scrollBy(0, -80);
+            setTimeout(backToTop, 0);
+          }
+        }
+
+        var btn = document.querySelector('#to-top');
+
+        window.addEventListener('scroll', trackScroll);
+        btn.addEventListener('click', backToTop);
+      })();
+    </script>
+  </body>
+</html>

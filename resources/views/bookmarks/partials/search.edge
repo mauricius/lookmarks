@@ -1,0 +1,6 @@
+<form method="GET" action="{{ route('bookmarks.index') }}">
+  <div class="max-w-sm pr-0 flex items-center">
+    <input type="search" class="flex-1 appearance-none rounded shadow border p-3 text-black mr-2 focus:outline-none" name="name" value="{{ request.get().name || '' }}" required="required">
+    <button type="submit" class="appearance-none bg-blue-500 text-white text-base font-semibold tracking-wide uppercase p-3 rounded shadow hover:bg-blue-400"><i class="fas fa-search"></i></button>
+  </div>
+</form>

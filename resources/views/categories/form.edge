@@ -1,0 +1,26 @@
+@layout('layouts.app')
+
+@section('content')
+  @set('title', category ? 'Edit Category' : 'Create Category')
+
+  <section class="flex py-2">
+    <div class="py-2 w-1/2 mx-auto">
+      <h2 class="text-3xl mb-4">{{ title }}</h2>
+
+      @include('partials._notification')
+
+      <form action="{{ category ? route('categories.update', {id : category.encodedId }) + '?_method=PUT' : route('categories.store') }}" method="post">
+        {{ csrfField() }}
+
+        <div class="mb-4">
+          @!component('components.form.label', name = 'name', label = 'Title', error = hasErrorFor('name'))
+          @!component('components.form.input', name = 'name', value = old('name', category ? category.name : ''), error = getErrorFor('name'))
+        </div>
+
+        @!component('components.form.button', value = category ? 'Update' : 'Create')
+        @!component('components.back_link', href = route('categories.index'))
+      </form>
+
+    </div>
+  </section>
+@endsection

@@ -1,0 +1,12 @@
+<div class="relative rounded rounded-t-lg shadow max-w-xs my-5">
+  @if(auth.user.avatar)
+    <img src="{{ auth.user.avatar }}" class="center absolute rounded-full border-solid border-white border-2 mt-3 h-16 w-16 -mt-8" alt="Avatar">
+  @endif
+
+  <div class="text-center px-3 pb-6 pt-2">
+    <h2 class="text-black text-xl text-sm bold mt-8">{{ auth.user.name }}</h2>
+    @if(auth.user.catchphrase)
+      <p class="mt-2 font-light text-gray-700">{{ auth.user.catchphrase }}</p>
+    @endif
+  </div>
+</div>

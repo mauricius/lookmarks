@@ -1,0 +1,17 @@
+@component('components.title')
+  Categories
+@endcomponent
+
+<div class="my-2">
+  @!component('components.button_link', href = route('categories.index'), label = 'Manage Categories')
+</div>
+
+<div class="py-3">
+  <ul>
+    @each(category in categories)
+    <li class="hover:bg-gray-300 px-1 py-2">
+      <a href="{{ route('bookmarks.index') + '?category=' + category.encodedId }}" class="text-gray-700 block {{ request.get().category == category.encodedId ? 'font-bold' : '' }}">{{ category.name }} ({{ category.__meta__.bookmarks_count }})</a>
+    </li>
+    @endeach
+  </ul>
+</div>

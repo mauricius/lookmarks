@@ -1,0 +1,28 @@
+<aside>
+  <ul>
+    <li class="hover:bg-gray-200 px-1 py-2">
+      <a
+        class="text-gray-700 block {{ request.url() == route('settings.account') ? 'font-bold' : '' }}"
+        href="{{ route('settings.account') }}"
+      >
+        Edit Account
+      </a>
+    </li>
+    <li class="hover:bg-gray-200 px-1 py-2">
+      <a
+        class="text-gray-700 block {{ request.url() == route('settings.password') ? 'font-bold' : '' }}"
+        href="{{ route('settings.password') }}"
+      >
+        Change Password
+      </a>
+    </li>
+    <li class="hover:bg-gray-200 px-1 py-2">
+      <a
+        class="text-gray-700 block {{ request.url() == route('settings.data') ? 'font-bold' : '' }}"
+        href="{{ route('settings.data') }}"
+      >
+        Personal Data
+      </a>
+    </li>
+  </ul>
+</aside>

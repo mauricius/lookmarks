@@ -1,0 +1,39 @@
+<div class="flex py-2 border-b border-gray-200 hover:bg-gray-200">
+  <div class="px-2 py-2 flex-grow">
+    <header class="flex justify-between">
+      <div>
+        <a href="{{ bookmark.url }}" target="_blank">
+          <i class="fa fa-star text-yellow-500"></i> <span class="font-medium text-gray-800 hover:text-gray-500">{{ bookmark.name }}</span>
+        </a>
+        -
+        <small class="font-normal text-green-500">{{ bookmark.host }}</small>
+        -
+        <a href="{{ route('bookmarks.edit', { id: bookmark.encodedId }) }}" class="inline-block text-blue-500 hover:text-blue-400 items-center mr-2 text-sm">
+          Edit
+        </a>
+        <form action="{{ '/bookmarks/' + bookmark.encodedId + '?_method=DELETE' }}" method="post" class="inline-block items-center" onsubmit="return confirm('Do you really want to delete the bookmark?')">
+          {{ csrfField() }}
+          <button type="submit" class="text-blue-500 text-sm hover:text-blue-400">Delete</button>
+        </form>
+
+        @if(bookmark && bookmark.screenshot)
+          <a href="{{ bookmark.screenshot }}" class="lightbox inline-block py-1 px-3 shadow-md rounded-full bg-blue-500 text-white text-sm border-blue-500 btn-primary hover:bg-blue-400 focus:outline-none active:shadow-none ml-2" alt="{{ bookmark.name }}" title="Screenshot"><i class="fa fa-image text-white"></i></a>
+        @endif
+      </div>
+      <div class="text-xs text-gray-500 flex items-center">
+        @include('bookmarks.svg.calendar')
+        <span>{{ bookmark.created_at }}</span>
+      </div>
+    </header>
+
+    <article class="py-2 text-gray-800 text-sm">
+      <p class="py-2">{{ truncate(bookmark.description, 200, '...') || 'No description' }}</p>
+      <div>
+        @each(category in bookmark.categories)
+          @!component('bookmarks.components.category_pill', href = route('bookmarks.index') + '?category=' + category.encodedId, label = category.name)
+
+        @endeach
+      </div>
+    </article>
+  </div>
+</div>

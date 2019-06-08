@@ -1,0 +1,56 @@
+@layout('layouts.app')
+
+@section('content')
+  @set('title', category.name)
+
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-3">
+          <nav class="panel">
+            <p class="panel-heading">Categories</p>
+
+            @each(category in categories)
+              <a class="panel-block{{ request.match(['/categories/' + category.slug]) ? ' is-active' : '' }}" href="{{ route('categories.show', { slug: category.slug }) }}">
+                {{ category.name }} ({{ category.__meta__.podcasts_count }})
+              </a>
+            @endeach
+          </nav>
+        </div>
+        <div class="column is-9">
+          <div class="box">
+            <div class="columns is-multiline">
+              @each(podcast in podcasts.data)
+                <div class="column is-one-third">
+                  <div class="card">
+                    <div class="card-image">
+                      <figure class="image is-3by2">
+                        <a href="{{ route('podcasts.show', { slug: podcast.slug }) }}">
+                          <img src="{{ assetsUrl(podcast.logo) }}" alt="Podcast logo">
+                        </a>
+                      </figure>
+                    </div>
+                    <div class="card-content">
+                      <div class="content">
+                        <a href="{{ route('podcasts.show', { slug: podcast.slug }) }}">
+                          {{ podcast.title }}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              @else
+                <p>No podcasts to display.</p>
+              @endeach
+            </div>
+
+            @if(podcasts.data.length)
+              <hr>
+              @!component('components.pagination', pagination = podcasts)
+            @endif
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+@endsection

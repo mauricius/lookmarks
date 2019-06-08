@@ -1,0 +1,9 @@
+.env
+/public/css/
+/public/js/
+/public/mix-manifest.json
+/tmp/
+/vendor/
+node_modules/
+npm-debug.log
+yarn-error.log

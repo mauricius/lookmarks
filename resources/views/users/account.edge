@@ -1,0 +1,48 @@
+@layout('layouts.app')
+
+@section('content')
+  @set('title', 'Edit Account')
+
+  <section class="flex py-2">
+    <div class="py-2 w-1/4 pr-5">
+      @include('users.partials._card')
+
+      @include('users.partials._settings_menu')
+    </div>
+    <div class="text-gray-darker py-2 w-3/4">
+      <div class="flex justify-between">
+          <h2 class="text-3xl text-black">{{ title }}</h2>
+      </div>
+      <div class="flex flex-col mt-2">
+        @include('partials._notification')
+
+        <form action="{{ route('settings.updateAccount') }}?_method=PUT" method="post" enctype="multipart/form-data">
+          {{ csrfField() }}
+
+          <div class="mb-4">
+            @!component('components.form.label', name = 'name', label = 'Name', error = hasErrorFor('name'))
+            @!component('components.form.input', name = 'name', value = old('name', auth.user.name), error = getErrorFor('name'))
+          </div>
+
+          <div class="mb-4">
+            @!component('components.form.label', name = 'email', label = 'Email', error = hasErrorFor('email'))
+            @!component('components.form.input', name = 'email', type = 'email', value = old('email', auth.user.email), error = getErrorFor('email'))
+          </div>
+
+          <div class="mb-4">
+            @!component('components.form.label', name = 'catchphrase', label = 'Catchphrase', error = hasErrorFor('catchphrase'))
+            @!component('components.form.input', name = 'catchphrase', type = 'text', value = old('catchphrase', auth.user.catchphrase), error = getErrorFor('catchphrase'))
+          </div>
+
+          <div class="mb-4">
+            @!component('components.form.label', name = 'avatar', label = 'Avatar', error = hasErrorFor('avatar'))
+            @!component('components.form.input', name = 'avatar', type = 'file', error = getErrorFor('avatar'))
+          </div>
+
+          @!component('components.form.button', value = 'Update Account')
+        </form>
+      </div>
+    </div>
+  </section>
+
+@endsection

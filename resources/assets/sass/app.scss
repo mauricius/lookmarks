@@ -1,0 +1,28 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+@import "lightbox";
+
+#to-top {
+  bottom: 40px;
+  right: 40px;
+  width: 40px;
+  height: 40px;
+  z-index: 9999;
+  line-height: 30px;
+  cursor: pointer;
+  outline: none;
+}
+
+.center {
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, 0%);
+  -ms-transform: translate(-50%, 0%);
+  -webkit-transform: translate(-50%, 0%);
+  -moz-transform: translate(-50%, 0%);
+  -o-transform: translate(-50%, 0%);
+}

@@ -1,0 +1,12 @@
+.lum-lightbox-inner img {
+    @apply rounded bg-white;
+    margin: 0 auto;
+}
+
+.lum-lightbox-image-wrapper {
+    background-color: rgba(0,0,0,0.3);
+}
+
+.lum-lightbox-caption {
+    @apply text-white my-2
+}

@@ -1,0 +1,11 @@
+<div class="inline-flex">
+  <a href="{{ route('bookmarks.index') + '?_sort=name' }}" class="{{ request.get()._sort == 'name' ? 'font-bold cursor-not-allowed' : 'hover:bg-gray-500' }} bg-gray-400 hover:bg-gray-500 text-gray-800 py-2 px-4 rounded-l text-sm">
+    Sort by title
+  </a>
+  <a href="{{ route('bookmarks.index') + '?_sort=category' }}" class="{{ request.get()._sort == 'category' ? 'font-bold cursor-not-allowed' : 'hover:bg-gray-500' }} bg-gray-400 hover:bg-gray-500 text-gray-800 py-2 px-4 text-sm">
+    Sort by category
+  </a>
+  <a href="{{ route('bookmarks.index') + '?_sort=created_at' }}" class="{{ request.get()._sort == 'created_at' ? 'font-bold cursor-not-allowed' : 'hover:bg-gray-500' }} bg-gray-400 text-gray-800 py-2 px-4 rounded-r text-sm">
+    Sort by date
+  </a>
+</div>

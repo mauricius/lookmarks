@@ -1,0 +1,37 @@
+@layout('layouts.app')
+
+@section('content')
+  @set('title', 'Register')
+
+  @component('auth.components.center_box', title = "Register, it\\'s free!")
+    @slot('body')
+      <form action="{{ route('register') }}" method="post">
+        {{ csrfField() }}
+
+        <div class="mb-4">
+          @!component('components.form.label', name = 'name', label = 'Name', error = hasErrorFor('name'))
+          @!component('components.form.input', name = 'name', value = old('name', ''), error = getErrorFor('name'))
+        </div>
+
+        <div class="mb-4">
+          @!component('components.form.label', name = 'email', label = 'Email', error = hasErrorFor('email'))
+          @!component('components.form.input', type = 'email', name = 'email', value = old('email', ''), error = getErrorFor('email'))
+        </div>
+
+        <div class="mb-4">
+          @!component('components.form.label', name = 'password', label = 'Password', error = hasErrorFor('password'))
+          @!component('components.form.input', type = 'password', name = 'password', error = getErrorFor('password'))
+        </div>
+
+        @!component('components.form.button', value = 'Create Account')
+      </form>
+    @endslot
+
+    @slot('footer')
+      <p class="text-gray-600 text-sm text-center">
+        Already got an account? <a href="{{ route('showLogin') }}" class="font-bold text-blue-500 hover:text-blue-400">Login</a>
+      </p>
+    @endslot
+  @endcomponent
+
+@endsection

@@ -1,0 +1,39 @@
+@layout('layouts.app')
+
+@section('content')
+  @set('title', 'Personal Data')
+
+  <section class="flex py-2">
+    <div class="py-2 w-1/4 pr-5">
+      @include('users.partials._card')
+
+      @include('users.partials._settings_menu')
+    </div>
+    <div class="text-gray-darker py-2 w-3/4">
+      <h2 class="text-3xl text-black">{{ title }}</h2>
+
+      <div class="flex flex-col mt-2">
+        @include('partials._notification')
+
+        <form action="/settings/data?_method=DELETE" method="post">
+          {{ csrfField() }}
+
+          <div class="flex items-center bg-red-500 text-white text-sm font-bold px-4 py-3" role="alert">
+            <i class="fa fa-exclamation mr-2"></i>
+            By inserting your password you agree to delete all your data!
+          </div>
+
+          <div class="my-4">
+            @!component('components.form.label', name = 'current_password', label = 'Current Password', error = hasErrorFor('current_password'))
+            @!component('components.form.input', name = 'current_password', type = 'password', error = getErrorFor('current_password'))
+          </div>
+
+          <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+            Delete
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+@endsection

@@ -1,0 +1,17 @@
+@layout('layouts.app')
+
+@section('content')
+  @set('title', '404 Not Found')
+
+  <section class="section">
+    <div class="container">
+      @component('components.title')
+        404 Not Found
+      @endcomponent
+
+      <a class="inline-block align-baseline font-bold text-sm text-blue-400 hover:text-blue-300 no-underline" href="{{ route('home') }}">
+        <i class="fas fa-home"></i> Take me home
+      </a>
+    </div>
+  </section>
+@endsection

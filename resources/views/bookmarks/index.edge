@@ -1,0 +1,63 @@
+@layout('layouts.app')
+
+@section('content')
+  @set('title', 'Bookmarks')
+
+  <section class="flex py-2">
+    <div class="w-1/4 pr-2">
+      @include('bookmarks.partials.sidebar')
+    </div>
+    <div class="w-3/4">
+      <div class="flex justify-between">
+        @component('components.title')
+          Bookmarks <small>({{ bookmarks.total }})</small>
+        @endcomponent
+
+        @if(bookmarks.data.length > 0)
+          <div>
+            @include('bookmarks.partials.filters')
+          </div>
+        @endif
+      </div>
+
+      @!component('components.button_link', href = route('bookmarks.create'), label = 'Add New')
+      @!component('components.button_link', href = route('bookmarks.show_upload'), label = 'Upload')
+
+      <hr>
+
+      @if(bookmarks.data.length > 0)
+        @include('bookmarks.partials.search')
+      @endif
+
+      <hr>
+
+      @include('partials._notification')
+
+      @if(category)
+        <h3 class="text-black text-2xl pt-6 pb-2">
+          <i class="fas fa-folder-open text-blue-500"></i> {{ category.name }}
+        </h3>
+      @endif
+
+      @!each(bookmark in bookmarks.data, include = 'bookmarks.components.bookmark')
+
+      @if(bookmarks.total >= 20)
+        <hr>
+
+        @!component('components.pagination', pagination = bookmarks, request = request, presenter = 'PaginationPresenter')
+      @endif
+
+      @if(bookmarks.total === 0)
+        <h4 class="text-black text-center py-3">
+          No bookmarks here! Why don't you <a class="inline-block align-baseline text-blue-500 hover:text-blue-400" href="{{ route('bookmarks.create') }}">add one?</a>
+        </h4>
+      @endif
+
+    </div>
+  </section>
+
+@endsection
+
+@section('scripts')
+  {{ script('js/bookmark.js') }}
+@endsection

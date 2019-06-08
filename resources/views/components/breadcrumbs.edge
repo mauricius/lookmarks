@@ -1,0 +1,12 @@
+<nav class="bg-gray-400 p-3 rounded font-sans w-full m-4">
+  <ol class="flex text-gray-600">
+    @each(item in items)
+      @if($loop.last)
+        <li>{{ item.name }}</li>
+      @else
+        <li><a href="{{ item.url }}" class="text-blue-500 font-bold">{{ item.name }}</a></li>
+        <li><span class="mx-2">/</span></li>
+      @endif
+    @endeach
+  </ol>
+</nav>

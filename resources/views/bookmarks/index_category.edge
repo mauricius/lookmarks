@@ -1,0 +1,51 @@
+@layout('layouts.app')
+
+@section('content')
+  @set('title', 'Bookmarks')
+
+  <section class="flex py-2">
+    <div class="w-1/4 pr-2">
+      @include('bookmarks.partials.static_sidebar')
+    </div>
+    <div class="w-3/4">
+      <div class="flex justify-between">
+        @component('components.title')
+          Bookmarks <small>({{ bookmarks.length }})</small>
+        @endcomponent
+
+        @if(bookmarks.length > 0)
+          <div>
+            @include('bookmarks.partials.filters')
+          </div>
+        @endif
+      </div>
+
+      @!component('components.button_link', href = route('bookmarks.create'), label = 'Add New')
+      @!component('components.button_link', href = route('bookmarks.show_upload'), label = 'Upload')
+
+      <hr>
+
+      @if(bookmarks.length > 0)
+        @include('bookmarks.partials.search')
+      @endif
+
+      @include('partials._notification')
+
+      @each(category in categories)
+        <h3 class="text-black text-2xl pt-6 pb-2" id="{{ category.slug }}">
+          <i class="fas fa-folder-open text-blue-500"></i> {{ category.name }}
+        </h3>
+
+        <hr class="border border-b border-gray-200">
+
+        @!each(bookmark in filterBookmarks(bookmarks, category), include = 'bookmarks.components.bookmark')
+      @endeach
+
+    </div>
+  </section>
+
+@endsection
+
+@section('scripts')
+  {{ script('js/bookmark.js') }}
+@endsection
