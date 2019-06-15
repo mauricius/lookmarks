@@ -1,5 +1,6 @@
 'use strict'
 
+const nurl = require('url')
 const Env = use('Env')
 const Model = use('Model')
 const Hasher = use('App/Helpers/Hasher')
@@ -18,7 +19,7 @@ class Bookmark extends Model {
   }
 
   getHost({ url }) {
-    return new URL(url).host
+    return nurl.parse(url).host
   }
 
   getEncodedId({ id }) {
