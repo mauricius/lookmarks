@@ -24,6 +24,7 @@ const providers = [
   '@adonisjs/validator/providers/ValidatorProvider',
   '@adonisjs/mail/providers/MailProvider',
   '@adonisjs/lucid-slugify/providers/SlugifyProvider',
+  '@adonisjs/vow/providers/VowProvider',
 
   'adonis-lucid-filter/providers/LucidFilterProvider',
 
