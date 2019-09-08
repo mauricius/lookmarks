@@ -1,9 +1,11 @@
 'use strict'
 
-const { test, beforeEach } = use('Test/Suite')('Bookmark Model')
+const { test, trait } = use('Test/Suite')('Bookmark Model')
 const Bookmark = use('App/Models/Bookmark')
 const User = use('App/Models/User')
 const Factory = use('Factory')
+
+trait('DatabaseTransactions')
 
 test('it should store a Bookmark', async ({ assert }) => {
   const bookmark = await Factory
