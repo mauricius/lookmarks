@@ -5,17 +5,7 @@
       {{ isFirst(pagination) ? '' : 'href=?' + appendQueryString(request.originalUrl(), 'page', pagination.page - 1) }}
     >Previous</a>
   </li>
-  @each(page in pageRange(pagination, 2))
-    @if(page === '...')
-    <li>
-      <a
-        class="block px-3 py-1 hover:text-white hover:bg-blue-400 text-blue-500 border-r border-gray-400"
-        href="#"
-      >
-          {{ page }}
-      </a>
-    </li>
-    @else
+  @each(page in range(1, pagination.lastPage))
     <li>
       <a
         class="block px-3 py-1 {{ pagination.page == page ? 'text-white bg-blue-500 border-r border-blue-500' : 'hover:text-white hover:bg-blue-400 text-blue-500 border-r border-gray-400' }}"
@@ -24,7 +14,6 @@
           {{ page }}
       </a>
     </li>
-    @endif
   @endeach
   <li>
     <a
