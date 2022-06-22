@@ -46,7 +46,7 @@
     "@adonisjs/vow": "^1.0.17",
     "adonis-lucid-filter": "^1.0.4",
     "bookmarks-parser": "^1.5.0",
-    "got": "^9.6.0",
+    "got": "^11.8.5",
     "hashids": "^1.2.2",
     "luminous-lightbox": "^2.3.2",
     "metascraper": "^4.10.3",
